@@ -15,20 +15,18 @@ using namespace std;
 
 class Player;
 //we need to use forward declaration. This is important due to the order of object calls
-class Game_Board
+class Board
 {
-public:
-//class variables
-	//string array[21];
+public;
+	//this needs to be of type property * so we can properly use our virtual functions in the tile class
+	//virtual functions only work for pointers
+	void make_move(Player* players, int num_players);
+	std::vector<Property*> properties;
 	std::vector<string> *user_pos = new vector<string>(20);
-	//std::vector<string> *property = new vector<string>(20);
-	//declaring a pointer to an array
-	//string * array;
-	// string user_pos[20];
 	int variable;
 	int player_count;
 //class methods
-	Game_Board();
+	Board();
 	void Display_Board();
 	void player_position(string player);
 	void set_user_pos(Player player);

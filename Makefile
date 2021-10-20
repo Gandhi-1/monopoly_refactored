@@ -9,5 +9,6 @@ monopoly: test_main.cpp gameboard.cpp gameboard.h player.cpp player.h property.c
 
 
 #actual game 
-monopoly1: main.cpp gameboard.cpp gameboard.h player.cpp player.h property.cpp property.h card.cpp card.h
-	clang++ main.cpp gameboard.cpp player.cpp property.cpp card.cpp -o monopoly1
+refactored: main.cpp gameboard.cpp gameboard.h player.cpp player.h property.cpp property.h property.cpp property.h Tile.cpp Tile.h
+	main.cpp gameboard.cpp player.cpp  property.cpp Tile.cpp -o refactored
+

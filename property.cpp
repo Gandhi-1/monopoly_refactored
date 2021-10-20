@@ -5,7 +5,9 @@
 using namespace std;
 // Property default constructor
 
-Property::Property() :Tile()
+
+//the inheretance is done int he main header
+Property::Property():Tile()
 {
     owned = false;
     num_house = 0;
@@ -24,8 +26,10 @@ Property::Property(string name, float price, float rent, int board_position) :Ti
     num_house = 0;
     num_hotel = 0;
     //this pointer avoids issue of having name = name
+    this->name = name;
     this->rent = rent;
     this->price = price;
+    original_name = name;
     property_owner = "none";
     this->board_position = board_position;
 }
@@ -54,6 +58,9 @@ void Property::buy_property(Player buyer)
         //
         owned = true;
         property_owner = buyer.get_name();
+        //this line of code adds the buyers number next to the name on the board so that we can see owns the property
+        name+=" "+buyer.get_number();
+        
         return;
     }
     if (input == "no")
@@ -236,8 +243,9 @@ void Property::sellProperty(Player* players, int i, int playercount)
                 if (accept == 1) {
                     cout << "Congrats " << players[j].get_name() << " you have bought the property for " << offer << endl;
                     set_owner(players[j]);
-                    players[j].change_balance(offer, '-');
-                    players[i].change_balance(offer, '+');
+                    players[j].change_balance(-offer);
+                    players[i].change_balance(offer);
+                    name = original_name;
                     ownerNumber = players[j].get_number();
                     players[i].properties_owned.erase(remove(players[i].properties_owned.begin(), players[i].properties_owned.end(), tileName), players[i].properties_owned.end());
                     players[j].properties_owned.push_back(tileName);
@@ -260,7 +268,8 @@ void Property::sellProperty(Player* players, int i, int playercount)
             players[i].properties_owned.erase(remove(players[i].properties_owned.begin(), players[i].properties_owned.end(), tileName), players[i].properties_owned.end());
             ownerNumber = 0;
             owned = false;
-            players[i].change_balance(price, '+');
+            name = original_name;
+            players[i].change_balance(price);
 
         }
 

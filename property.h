@@ -20,6 +20,8 @@ protected:
     int increase;
 
 public:
+    string name;
+    string original_name;
     int board_position;
     int price;
     //string *properties;

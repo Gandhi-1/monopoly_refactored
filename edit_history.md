@@ -119,3 +119,13 @@ Tutor notes:
 
  function_get_name( player.get_name + " " + (player.get_number()) //concatenation naturally turns it into a string;
  //use tiles
+
+
+
+ Refactored version: 
+Gameboard class: 
+-moved property objects to gameboard constructor;
+-added make move method
+-fixed up board array to print out the name from the player class
+
+Player class

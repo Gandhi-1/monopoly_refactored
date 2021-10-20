@@ -19,6 +19,7 @@ class Player {
     
     public:
         //variables
+        
         vector <string> properties_owned;
         string playerName;
         
@@ -32,7 +33,11 @@ class Player {
         Player();
         void InJail();
         int get_number();
-        void get_properties();
+        //this is a very important function that needs to be called when a player lands on the property
+        void get_properties(Vector<Tile*> &properties){
+            //we want to pass through Tile objects (or property objedcts and access them)
+
+        };
         void aquire_property(string name);
         void show_properties();
         int get_previous_position();

@@ -34,7 +34,7 @@ void Player::InJail(){
         }
         if(input == "yes"){
             if(get_balance()>=400){
-                change_balance(400,'-');
+                change_balance(-400);
                 cout<<"congratulations you are out of jail via the bail"<<endl;
                 cout<<"your account now has "<<get_balance()<<" dollars"<<endl;
                 in_jail = false;
@@ -121,14 +121,13 @@ string Player::get_name()
 }
 
 // function to change balance
-void Player::change_balance(int balance, char calculation)
+void Player::change_balance(int balance);
+//, char calculation)
 {   
-    if(calculation=='+') {
-        playerBalance += balance;
-    }
-    else {
-        playerBalance -= balance;
-    }
+    //if(calculation=='+') {
+    //no need to add symbol as parameter can take either positive or negative balance e.g: change_balance(int -100) would withdraw 100 from user balance
+    playerBalance += balance;
+    
 }
 
 // function to return balance
