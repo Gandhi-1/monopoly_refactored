@@ -15,13 +15,11 @@ class Property :public Tile {
 private:
     bool owned;
 
-protected:
-    int num_house, num_hotel;
-    int increase;
-
 public:
     int board_position;
     int price;
+    int num_house;
+    int num_hotel;
     //string *properties;
     int rent;
     int ownerNumber;
