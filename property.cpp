@@ -32,7 +32,7 @@ Property::Property(string name, float price, float rent, int board_position) :Ti
 
 //we want to change the value of the property as more houses are added. This is because houses pertain value. 
 void Property::add_value(int increase) {
-    price += increase;
+    rent += increase;
     //this should be in the hotel class
 }
 
