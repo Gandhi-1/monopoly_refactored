@@ -148,6 +148,8 @@ void mainMenu(Board* adelaide_monopoly)
 
     else
     {
+        //end program
+        delete adelaide_monopoly;
         cout << "Bye Bye!" << endl;
         exit(69);
     }
@@ -192,7 +194,7 @@ void getPlayerInfo(Board* adelaide_monopoly)
         getline(cin, tempName);
         //player_object(name,player number);
         players[i] = Player(tempName, i + 1);
-        //this is an alternative way to change the variales individually, but I prefer the above method of calling the constructor
+        //this is an alternative way to change the variables individually, but I prefer the above method of calling the constructor
         // Players[i].playerName = tempName;
         // Players[i].player_num = i + 1;
         // Players[i].change_balance(1500);
