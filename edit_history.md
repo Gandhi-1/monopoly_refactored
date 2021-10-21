@@ -64,7 +64,7 @@ methods one and two will perhaps be integrated into the one method to avoid erro
 ==11/10/21== (Hugh Signoriello)
 -added previous position feature to player class
 -improved position changing flow on player calss
--fixed creating objects in mainfile as objects were not called from constructor. 
+-fixed creating objects in mainfile as objects were not called from constructor.
 
 ==17/10/21 == (Dhyan Darji)
 -Changed ontile functionality into ontile2. Checks if it has been property has been bought and than refers to other functions accordingly.
@@ -79,16 +79,15 @@ methods one and two will perhaps be integrated into the one method to avoid erro
 ==17/10/21 == (Hugh Signoriello)
 -fixing compilation errors
 -fixed choice to buy or sell property or buy house
--added a getter function for player class to return the current properties_owned array. This allows us to view the properties owned by the players in other classes. 
+-added a getter function for player class to return the current properties_owned array. This allows us to view the properties owned by the players in other classes.
 -completely updated ontile class and fixed coupling issues
 -cleared up code readability and reduced clutter
 -added features to main to call our classes in a specific order so that the game runs properly
 -changes the dice range to (1,8) instead of (1,12) for balancing
 -fixed dynamic array player allocation so that after a player makes a move it no longer shows their previous position on the board
 -added feature so that if more than one player lands on a tile, it shows that both players are on that posisition. This can be found in the board.cpp class
--type_casting int to string to add who owns property to board so that it is dipslayed. 
+-type_casting int to string to add who owns property to board so that it is dipslayed.
 -tried to make properties array a pointer so we can access this array from another class without passing it through a function. I wonder how I can do this?
-
 
 18/10/21 hugh signoriello
 -created card class
@@ -100,32 +99,40 @@ methods one and two will perhaps be integrated into the one method to avoid erro
 
 -19/10/21 hugh signoriello
 -created in jail method which is part of the player class. If a player's bool in jail == true, this means that they are unable to make moves and will continue to stay in jail unless they meet the special conditions for leaving jail;w
--in jail variables called in main file 
+-in jail variables called in main file
 -tested jail class and fixed bug from while loop not ending (changed contion to && instead of ||)
 
 Gamebug: not entering a valid player count causes infinite loop
 
+Tutor notes:
+-need help to mak
+whole class in gameboard.cpp
+-want to pass it through and access it from a different file
+-don't understand why the card objects have errors when declared outside of the card if statement on line 289 main;
+-not sure where I can add inheretance to the game (thinking to create house objects stored inside property object). but objects inside of objects seems inefficient.
 
-Tutor notes: 
-    -need help to mak
-     whole class in gameboard.cpp
-    -want to pass it through and access it from a different file
-    -don't understand why the card objects have errors when declared outside of the card if statement on line 289 main;
-    -not sure where I can add inheretance to the game (thinking to create house objects stored inside property object). but objects inside of objects seems inefficient.
-   
+-get name from player class
 
+function_get_name( player.get_name + " " + (player.get_number()) //concatenation naturally turns it into a string;
+//use tiles
 
- -get name from player class
-
- function_get_name( player.get_name + " " + (player.get_number()) //concatenation naturally turns it into a string;
- //use tiles
-
-
-
- Refactored version: 
-Gameboard class: 
+Refactored version:
+Gameboard class:
 -moved property objects to gameboard constructor;
 -added make move method
 -fixed up board array to print out the name from the player class
 
 Player class
+
+## ==21/10/2021== (Dhyan Darji)
+
+-Changed makefile to run our program as well (save time)
+-We forgot to add a start property, so added that.
+-Declared properties correctly and pushed onto the vector of pointers.
+-Got rid of redundant variables that are already captured as attributes in classes.
+-Input validation has taken place, most work, some might require minor changes!
+-Got rid of all if statements for each tile and instead had the predefined function in the board class handle it.
+-Made sure the program was memory efficient through passing pointers to vectors/array instead of copying them over.
+-Added decontructor for classes that did not have them.
+-Added functionality for buying/selling houses/hotels
+-Minor bug fixing/logic errors
