@@ -37,5 +37,7 @@ int main(void){
 
 
     //end program
+    delete p1;
+    delete adelaide_monopoly;
     return 0;
 }
