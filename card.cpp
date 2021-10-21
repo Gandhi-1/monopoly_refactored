@@ -16,7 +16,7 @@ Card::Card(){
 
 
 //num refers to the player num so we can access the player num in the player object array
- void Card::activate_card(Player *players,Game_Board board, int num){
+ void Card::activate_card(Player *players,Board board, int num){
      //action type determines the functionality of the card, i.e which methods it will call. 
      switch(action_type){
          case 1: 
