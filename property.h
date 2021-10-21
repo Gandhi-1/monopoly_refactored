@@ -34,18 +34,19 @@ public:
     string property_owner;
     Property();
     Property(string name, float price, float rent, int board_position);
+    ~Property();
     void add_value(int increase);
     //for some reason player object is not registering
-    void buy_property(Player buyer);
-    void set_owner(Player owner);
+    void buy_property(Player* buyer); //1
+    void set_owner(Player* owner);//2
     void get_owner();
-    void getRent(Player player);
+    void getRent(Player* player);//3
     void ontile(Player* player, int i, int playercount);
     void sellProperty(Player* players, int i, int playercount);
     void buyHouse(Player* p);
-    void sellHouse(Player *p);
-    void buyHotel(Player *p);
-    void sellHotel(Player *p);
+    void sellHouse(Player* p);
+    void buyHotel(Player* p);
+    void sellHotel(Player* p);
     string get_name();
 };
 

@@ -1,5 +1,6 @@
 #include "player.h"
 #include <string>
+#include <string.h>
 #include <algorithm>
 
 using namespace std;
@@ -21,6 +22,9 @@ Property::Property() :Tile()
     hotelPrice = 0;
 }
 
+Property::~Property() {
+    cout << name << " has been deleted! " << endl;
+}
 
 
 // Property Constructor with name, price and rent
@@ -42,7 +46,7 @@ Property::Property(string name, float price, float rent, int board_position) :Ti
     hotelPrice = 100;
 }
 
-}
+
 
 //we want to change the value of the property as more houses are added. This is because houses pertain value. 
 void Property::add_value(int increase) {
@@ -50,29 +54,41 @@ void Property::add_value(int increase) {
     //this should be in the hotel class
 }
 
-void Property::buy_property(Player buyer)
+void Property::buy_property(Player* buyer)
 {
     string input;
     cout << "Would you like to buy " << tileName << " for " << price << " dollars? yes/no" << endl;
+
     cin.clear(); //clears input
 
     cin.ignore(256, '\n');
 
     getline(cin, input);
+
+    cout << input << "1" << endl;
+
+    while (input != "no" && input != "yes")
+    {
+        cout << "please type yes or no only" << endl;
+        // cin.clear(); //clears input
+        // cin.ignore(256, '\n');
+        getline(cin, input);
+    }
+
     // if(input == "yes"){
-    if (input.compare("yes") == 0 && buyer.playerBalance > price)
+    if (input.compare("yes") == 0 && buyer->playerBalance > price)
     {
         //if player chooses yes to buy property:
         //setting the player to be the owner of the property
         set_owner(buyer);
         //puts the property to the players bank account
 
-        buyer.aquire_property(tileName);
+        buyer->aquire_property(tileName);
         //
         owned = true;
-        property_owner = buyer.get_name();
+        property_owner = buyer->get_name();
         //this line of code adds the buyers number next to the name on the board so that we can see owns the property
-        name += " " + buyer.get_number();
+        name += " " + buyer->get_number();
 
         return;
     }
@@ -80,15 +96,11 @@ void Property::buy_property(Player buyer)
     {
         cout << "You chose not to buy this property" << endl;
     }
-    else
-    {
-        cout << "please type yes or no only" << endl;
-        buy_property(buyer);
-    }
+
 }
 
 // Function to set owner. //this should be integrated with function on line 25 to be all in one to avoid errors.
-void Property::set_owner(Player owner)
+void Property::set_owner(Player* owner)
 {
     //concatenating the player number to the board so that we can see who owns that property
     //we need to typecast int to string before we add it to the
@@ -100,9 +112,9 @@ void Property::set_owner(Player owner)
     //cout<<properties[board_position]<<endl;
     //properties[board_position]+= to_string(owner.get_number());
 
-    property_owner = owner.get_name();
+    property_owner = owner->get_name();
     //prints out saves player  number who owns the property.
-    ownerNumber = owner.get_number();
+    ownerNumber = owner->get_number();
     cout << "CONGRATULATIONS " << property_owner << " now owns " << tileName << " purchased for " << price << " dollars. " << endl
         << endl;
     //cout << "CONGRATULATIONS " << property_owner << " now owns " << property_name << " purchased for " << price << " dollars. " << endl;
@@ -111,19 +123,19 @@ void Property::set_owner(Player owner)
 }
 
 //gets if a player is ontile
-void Property::getRent(Player player)
+void Property::getRent(Player* player)
 {
-    int owner_number = player.get_number();
+    int owner_number = player->get_number();
 
     //checking if the property i owned and the owner of the property is a different player (i.e player number is different)
 
-    if (owned && ownerNumber != player.get_number())
+    if (owned && ownerNumber != player->get_number())
     {
 
         int price_payed = -rent; //our current system enables the player to get into debt.
-        cout << player.get_name() << "pays " << -rent << " dollars in rent " << endl;
-        player.change_balance(-rent);
-        cout << " your account now has " << player.get_balance() << " dollars " << endl;
+        cout << player->get_name() << "pays " << -rent << " dollars in rent " << endl;
+        player->change_balance(-rent);
+        cout << " your account now has " << player->get_balance() << " dollars " << endl;
         get_owner();
     }
 
@@ -162,14 +174,14 @@ void Property::ontile(Player* players, int i, int playercount) {
     if (owned == false) {
         //buying a property 
         //this functions handles everything as it is coupled with other functions
-        buy_property(players[i]);
+        buy_property(&players[i]);
         return;
     }
     //if the player lands on someone elses property
     if (owned == true && ownerNumber != players[i].get_number()) {
         //displaying owner
         get_owner();
-        getRent(players[i]);
+        getRent(&players[i]);
         return;
     }
     //if the player lands on their own property!
@@ -179,17 +191,17 @@ void Property::ontile(Player* players, int i, int playercount) {
         cout << "you already own this property!" << endl;
         cout << "type 'BUY' to buy a house/hotel or type 'SELL' to sell property/house/hotel otherwise press enter to continue" << endl;
         string sell;
-        
+
         cin.clear(); //clears input
-        
+
         cin.ignore(256, '\n');
-        
-        getline(cin,sell);
+
+        getline(cin, sell);
         if (sell == "SELL") {
-            
-            cout<<"Do you want to sell your property, house or hotel?"<<endl;
-            cout<<"type 'PROPERTY' to sell property, 'HOUSE' to sell house and 'HOTEL' to sell hotel"<<endl;
-            cout<<"Hit enter to exit"<<endl;
+
+            cout << "Do you want to sell your property, house or hotel?" << endl;
+            cout << "type 'PROPERTY' to sell property, 'HOUSE' to sell house and 'HOTEL' to sell hotel" << endl;
+            cout << "Hit enter to exit" << endl;
 
             string check;
 
@@ -199,96 +211,96 @@ void Property::ontile(Player* players, int i, int playercount) {
 
             getline(cin, check);
 
-            while(check!= "PROPERTY" || check != "HOUSE" || check!= "HOTEL" ||check!='\n' ) {
-                
-                cin.clear();
+            while (check != "PROPERTY" || check != "HOUSE" || check != "HOTEL" || check[0] != '\n') {
 
-                cin.ignore(256, '\n');
+                // cin.clear();
 
-                cout<<"Invalid entry, try again!"<<endl;
+                // cin.ignore(256, '\n');
 
-                cout<<"type 'PROPERTY' to sell property, 'HOUSE' to sell house and 'HOTEL' to sell hotel"<<endl;
-                
-                cout<<"Hit enter to exit"<<endl;
+                cout << "Invalid entry, try again!" << endl;
 
-                getline(cin, check);        
+                cout << "type 'PROPERTY' to sell property, 'HOUSE' to sell house and 'HOTEL' to sell hotel" << endl;
+
+                cout << "Hit enter to exit" << endl;
+
+                getline(cin, check);
 
             }
 
-            if(check=="PROPERTY") {
+            if (check == "PROPERTY") {
                 sellProperty(players, i, playercount);
             }
 
-            if(check=="HOUSE") {
-                if(houseCount==0) {
-                    cout<<"You can't sell a house you don't own!"<<endl;
-                    cout<<"You will be returned"<<endl;
+            if (check == "HOUSE") {
+                if (houseCount == 0) {
+                    cout << "You can't sell a house you don't own!" << endl;
+                    cout << "You will be returned" << endl;
 
                 }
                 else {
-                    sellHouse(players[i]);
+                    sellHouse(&players[i]);
                 }
             }
 
-            if(check=="HOTEL") {
-                if(hotelCount==0) {
-                    cout<<"You can't sell a hotel you don't own!"<<endl;
-                    cout<<"You will be returned"<<endl;
+            if (check == "HOTEL") {
+                if (hotelCount == 0) {
+                    cout << "You can't sell a hotel you don't own!" << endl;
+                    cout << "You will be returned" << endl;
                 }
                 else {
-                    sellHotel(players[i]);
+                    sellHotel(&players[i]);
                 }
             }
 
 
 
         }
-        
-        if(sell == "BUY") {
+
+        if (sell == "BUY") {
 
             string buy;
-            cout<<"Type 'HOUSE' to buy a house, 'HOTEL' to buy a hotel or enter to exit"<<endl;
+            cout << "Type 'HOUSE' to buy a house, 'HOTEL' to buy a hotel or enter to exit" << endl;
 
             cin.clear(); //clears input
-        
+
             cin.ignore(256, '\n');
-        
-            getline(cin,buy)
 
-              while(buy != "HOUSE" || buy != "HOTEL" || buy != '\n') {
-                
-                cin.clear(); //clears input
+            getline(cin, buy);
 
-                cin.ignore(256, '\n');
-                
-                getline(cin,buy)
+            while (buy != "HOUSE" || buy != "HOTEL" || buy[0] != '\n') {
 
-                }
+                // cin.clear(); //clears input
 
-            if(buy=="HOUSE") {
+                // cin.ignore(256, '\n');
 
-                buyHouse(*players[i]);
+                getline(cin, buy);
 
             }
 
-            if(buy=="HOTEL") {
-                buyHotel(*players[i]);
+            if (buy == "HOUSE") {
+
+                buyHouse(&players[i]);
+
+            }
+
+            if (buy == "HOTEL") {
+                buyHotel(&players[i]);
             }
 
         }
 
-        while(sell != "SELL" || sell != "BUY" || sell != '\n') {
-        
-        cin.clear(); //clears input
+        while (sell != "SELL" || sell != "BUY" || sell[0] != '\n') {
 
-        cin.ignore(256, '\n');
-        
-        getline(cin,sell);
+            // cin.clear(); //clears input
+
+            // cin.ignore(256, '\n');
+
+            getline(cin, sell);
 
         }
 
         return;
-        
+
     }
 
 
@@ -380,7 +392,7 @@ void Property::sellProperty(Player* players, int i, int playercount)
 
             if (accept == 1) {
                 cout << "Congrats " << players[j].get_name() << " you have bought the property for " << offer << endl;
-                set_owner(players[j]);
+                set_owner(&players[j]);
                 players[j].change_balance(-offer);
                 players[i].change_balance(offer);
                 name = original_name;
@@ -414,73 +426,73 @@ void Property::sellProperty(Player* players, int i, int playercount)
 }
 
 
-void Property::buyHouse(Player *p){
+void Property::buyHouse(Player* p) {
 
-    if(p->get_balance()<housePrice) {
-        cout<<"You don't have enough money for a house, you need 50!"<<endl;
+    if (p->get_balance() < housePrice) {
+        cout << "You don't have enough money for a house, you need 50!" << endl;
         return;
     }
-    else if(houseCount==4){
-        cout<<"You cannot build anymore houses, maximum number of houses is 4!"<<endl;
+    else if (houseCount == 4) {
+        cout << "You cannot build anymore houses, maximum number of houses is 4!" << endl;
         return;
     }
     else {
         houseCount++;
         p->change_balance(-housePrice);
-        rent = rent*1.1;
-        cout<<"Congrats "<<p->get_name()<<"("<<p->get_number()<<")  you now have a house!"<<endl;
-        cout<<"Your rent has increased by 10%!"<<endl;
+        rent = rent * 1.1;
+        cout << "Congrats " << p->get_name() << "(" << p->get_number() << ")  you now have a house!" << endl;
+        cout << "Your rent has increased by 10%!" << endl;
         return;
 
     }
 
 }
 
-void Property::sellHouse(Player *p){
+void Property::sellHouse(Player* p) {
 
     houseCount--;
-    p->change_balance(housePrice*0.9);
-    cout<<"You have sold your house, you will get paid "<<0.9*housePrice<<endl;
-    cout<<p->get_name()<<"("<<p->get_number()<<") your balance is now $"<<p->get_balance()<<endl;
+    p->change_balance(housePrice * 0.9);
+    cout << "You have sold your house, you will get paid " << 0.9 * housePrice << endl;
+    cout << p->get_name() << "(" << p->get_number() << ") your balance is now $" << p->get_balance() << endl;
 
-    }
+}
 
 
-void Property::buyHotel(Player *p){
+void Property::buyHotel(Player* p) {
 
-    if(p->get_balance()<hotelPrice) {
-        cout<<"You don't have enough money for a hotel, you need 100!"<<endl;
+    if (p->get_balance() < hotelPrice) {
+        cout << "You don't have enough money for a hotel, you need 100!" << endl;
         return;
     }
 
-    if(houseCount!=4){
-        cout<<"You cannot buy a hotel if you do not have 4 houses!"<<endl;
-        cout<<"Do you wish to buy a house?"<<endl;
-        cout<<"'YES to buy a house, enter to return"<<endl;
+    if (houseCount != 4) {
+        cout << "You cannot buy a hotel if you do not have 4 houses!" << endl;
+        cout << "Do you wish to buy a house?" << endl;
+        cout << "'YES to buy a house, enter to return" << endl;
         string command;
-        
+
         cin.clear(); //clears input
 
         cin.ignore(256, '\n');
 
         getline(cin, command);
 
-        while(command != "YES" || command != '\n') {
+        while (command != "YES" || command[0] != '\n') {
 
-        cin.clear(); //clears input
+            // cin.clear(); //clears input
 
-        cin.ignore(256, '\n');
+            // cin.ignore(256, '\n');
 
-        cout<<"Invalid entry"<<endl;
+            cout << "Invalid entry" << endl;
 
-        cout<<"Do you wish to buy a house?"<<endl;
-        cout<<"'YES to buy a house, enter to return"<<endl;
+            cout << "Do you wish to buy a house?" << endl;
+            cout << "'YES to buy a house, enter to return" << endl;
 
-        getline(cin, command);
+            getline(cin, command);
 
         }
 
-        if(command == "YES") {
+        if (command == "YES") {
             buyHouse(p);
         }
         return;
@@ -488,23 +500,23 @@ void Property::buyHotel(Player *p){
     else {
         hotelPrice++;
         p->change_balance(-hotelPrice);
-        rent = rent*1.2;
-        cout<<"Congrats "<<p->get_name()<<"("<<p->get_number()<<")  you now have a hotel!"<<endl;
-        cout<<"Your rent has increased by 20%!"<<endl;
-        cout<<p->get_name()<<"("<<p->get_number()<<") your balance is now $"<<p->get_balance()<<endl;
+        rent = rent * 1.2;
+        cout << "Congrats " << p->get_name() << "(" << p->get_number() << ")  you now have a hotel!" << endl;
+        cout << "Your rent has increased by 20%!" << endl;
+        cout << p->get_name() << "(" << p->get_number() << ") your balance is now $" << p->get_balance() << endl;
 
         return;
 
     }
 
-    }
+}
 
 
-void Property::sellHotel(Player *p){
+void Property::sellHotel(Player* p) {
 
     hotelCount--;
-    p->change_balance(hotelPrice*0.9);
-    cout<<"You have sold your house, you will get paid "<<0.9*housePrice<<endl;
-    cout<<p->get_name()<<"("<<p->get_number()<<") your balance is now $"<<p->get_balance()<<endl; 
+    p->change_balance(hotelPrice * 0.9);
+    cout << "You have sold your house, you will get paid " << 0.9 * housePrice << endl;
+    cout << p->get_name() << "(" << p->get_number() << ") your balance is now $" << p->get_balance() << endl;
 
 }

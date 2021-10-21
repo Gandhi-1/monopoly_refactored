@@ -9,6 +9,10 @@ Player::Player()
     properties_owned[20];
 }
 
+Player::~Player() {
+
+}
+
 Player::Player(string Name, int num)
 {
 

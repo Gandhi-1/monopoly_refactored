@@ -108,7 +108,6 @@ void Board::make_move(Player* players) {
             cout << "2 - End Game " << endl;
 
 
-
             while (!(cin >> control)) {
 
                 cin.clear(); //clears input
@@ -117,7 +116,7 @@ void Board::make_move(Player* players) {
 
                 cout << "Invalid Entry! Try again" << endl;
                 cout << "Press 1 to roll the dice" << endl;
-                cout << "2 - End Game " << endl;
+                cout << "Press 2 to End Game " << endl;
             }
 
             if (control == 2)

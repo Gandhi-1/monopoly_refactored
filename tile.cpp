@@ -15,3 +15,6 @@ Tile::Tile(string name) {
 
 }
 
+Tile::~Tile() {
+    cout << tileName << " has been deleted!" << endl;
+}

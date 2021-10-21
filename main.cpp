@@ -160,9 +160,7 @@ void getPlayerInfo(Board* adelaide_monopoly)
 
     cout << "How many players will there be? (2-6)" << endl;
     cout << "=======================================" << endl;
-    cin >> playercount;
-    system("clear"); //->clear output terminal.
-    while (playercount > 6 || playercount < 2 && !(cin >> playercount))
+    while (!(cin >> playercount) || playercount > 6 | playercount < 2)
     {
         cin.clear(); //clears input
 
@@ -173,7 +171,7 @@ void getPlayerInfo(Board* adelaide_monopoly)
         cout << "Invalid number! Please enter a number from 2 to 6!" << endl
             << endl;
         cout << "Enter player count:" << endl;
-        cin >> playercount;
+
     }
     adelaide_monopoly->player_count = playercount;
     string tempName;

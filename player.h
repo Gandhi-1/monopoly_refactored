@@ -32,6 +32,7 @@ public:
     //class methods
     Player(string Name, int num);
     Player();
+    ~Player();
     void InJail();
     int get_number();
     //this is a very important function that needs to be called when a player lands on the property
