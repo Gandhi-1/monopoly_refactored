@@ -7,7 +7,7 @@ using namespace std;
 
 
 //the inheretance is done int he main header
-Property::Property():Tile()
+Property::Property() :Tile()
 {
     owned = false;
     num_house = 0;
@@ -44,8 +44,11 @@ void Property::buy_property(Player buyer)
 {
     string input;
     cout << "Would you like to buy " << tileName << " for " << price << " dollars? yes/no" << endl;
+    cin.clear(); //clears input
 
-    cin >> input;
+    cin.ignore(256, '\n');
+
+    getline(cin, input);
     // if(input == "yes"){
     if (input.compare("yes") == 0 && buyer.playerBalance > price)
     {
@@ -59,8 +62,8 @@ void Property::buy_property(Player buyer)
         owned = true;
         property_owner = buyer.get_name();
         //this line of code adds the buyers number next to the name on the board so that we can see owns the property
-        name+=" "+buyer.get_number();
-        
+        name += " " + buyer.get_number();
+
         return;
     }
     if (input == "no")
@@ -109,7 +112,7 @@ void Property::getRent(Player player)
 
         int price_payed = -rent; //our current system enables the player to get into debt.
         cout << player.get_name() << "pays " << -rent << " dollars in rent " << endl;
-        player.change_balance(rent, '-');
+        player.change_balance(-rent);
         cout << " your account now has " << player.get_balance() << " dollars " << endl;
         get_owner();
     }
@@ -207,7 +210,14 @@ void Property::sellProperty(Player* players, int i, int playercount)
             if (players[j].get_number() != ownerNumber && interestedBuyer[j] == true) {
 
                 cout << players[j].get_name() << "(" << players[j].get_number() << ") Enter a offer for " << tileName << "if you wish to not purchase enter 0 " << endl;
-                cin >> offer;
+
+                while (!(cin >> offer)) {
+                    cin.clear(); //clears input
+
+                    cin.ignore(256, '\n');
+
+                    cout << "Input a valid number!" << endl;
+                }
 
                 if (offer < players[j].playerBalance) {
                     cout << players[j].get_name() << "(" << players[j].get_number() << ") you have entered an offer that is more than the money you have, you cannot buy this!" << endl;
@@ -224,57 +234,70 @@ void Property::sellProperty(Player* players, int i, int playercount)
                 }
 
                 cout << property_owner << "(" << ownerNumber << ")" << " you have received an offer for " << offer << " type 'yes' type 'no' to cancel" << endl;
+
+                cin.clear(); //clears input
+
+                cin.ignore(256, '\n');
+
+
+                getline(cin, input);
+
+                while (input != "yes" || input != "no")
+                    cout << "Type yes or no only please" << endl;
+                cin >> input;
+            }
+
+            if (input == "yes")
+                accept = 1;
+            else if (input == "no")
+                accept = 0;
+
+
+            while (accept != 0 || accept != 1) {
+                cout << "Invalid answer!" << endl;
+                cout << property_owner << "(" << ownerNumber << ")" << " you have received an offer for " << offer << " type 'yes' type 'no' to cancel" << endl;
                 cin >> input;
                 if (input == "yes")
                     accept = 1;
                 else if (input == "no")
                     accept = 0;
-
-                while (accept != 0 || accept != 1) {
-                    cout << "Invalid answer!" << endl;
-                    cout << property_owner << "(" << ownerNumber << ")" << " you have received an offer for " << offer << " type 'yes' type 'no' to cancel" << endl;
-                    cin >> input;
-                    if (input == "yes")
-                        accept = 1;
-                    else if (input == "no")
-                        accept = 0;
-                }
-
-                if (accept == 1) {
-                    cout << "Congrats " << players[j].get_name() << " you have bought the property for " << offer << endl;
-                    set_owner(players[j]);
-                    players[j].change_balance(-offer);
-                    players[i].change_balance(offer);
-                    name = original_name;
-                    ownerNumber = players[j].get_number();
-                    players[i].properties_owned.erase(remove(players[i].properties_owned.begin(), players[i].properties_owned.end(), tileName), players[i].properties_owned.end());
-                    players[j].properties_owned.push_back(tileName);
-                    bought = true;
-
-                }
-            }
-            count++;
-
-            if (count == 3) {
-                break;
             }
 
+            if (accept == 1) {
+                cout << "Congrats " << players[j].get_name() << " you have bought the property for " << offer << endl;
+                set_owner(players[j]);
+                players[j].change_balance(-offer);
+                players[i].change_balance(offer);
+                name = original_name;
+                ownerNumber = players[j].get_number();
+                players[i].properties_owned.erase(remove(players[i].properties_owned.begin(), players[i].properties_owned.end(), tileName), players[i].properties_owned.end());
+                players[j].properties_owned.push_back(tileName);
+                bought = true;
 
+            }
         }
+        count++;
 
         if (count == 3) {
-
-            cout << "Nobody wishes to buy the property or you are receiving bad prices, the government will now buy at price bought" << endl;
-            players[i].properties_owned.erase(remove(players[i].properties_owned.begin(), players[i].properties_owned.end(), tileName), players[i].properties_owned.end());
-            ownerNumber = 0;
-            owned = false;
-            name = original_name;
-            players[i].change_balance(price);
-
+            break;
         }
+
 
     }
 
+    if (count == 3) {
 
+        cout << "Nobody wishes to buy the property or you are receiving bad prices, the government will now buy at price bought" << endl;
+        players[i].properties_owned.erase(remove(players[i].properties_owned.begin(), players[i].properties_owned.end(), tileName), players[i].properties_owned.end());
+        ownerNumber = 0;
+        owned = false;
+        name = original_name;
+        players[i].change_balance(price);
+
+    }
 
 }
+
+
+
+

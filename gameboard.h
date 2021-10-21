@@ -17,20 +17,21 @@ class Player;
 //we need to use forward declaration. This is important due to the order of object calls
 class Board
 {
-public;
+public:
 	//this needs to be of type property * so we can properly use our virtual functions in the tile class
 	//virtual functions only work for pointers
-	void make_move(Player* players, int num_players);
+	Board();
 	std::vector<Property*> properties;
-	std::vector<string> *user_pos = new vector<string>(20);
+	std::vector<string>* user_pos = new vector<string>(20);
 	int variable;
 	int player_count;
-//class methods
-	Board();
-	void Display_Board();
-	void player_position(string player);
+	//class methods
+	void make_move(Player* players);
 	void set_user_pos(Player player);
-	int rollDice();
+	void Display_Board();
+	~Board();
+	// void player_position(string player);
+	// int rollDice();
 
 	//create players should be done in the main function, not in our gameboard class.
 	// Player* createPlayers(int numPlayers);

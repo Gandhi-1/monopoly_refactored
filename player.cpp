@@ -22,41 +22,41 @@ Player::Player(string Name, int num)
     in_jail = false;
 }
 
-void Player::InJail(){
+void Player::InJail() {
     string input;
-    if(in_jail == true){
-        cout<<"you are in jail, either pay a 400 dollar bail or roll a two of the same numbers"<<endl;
-        cout<<"would you like to pay the bail? yes/no"<<endl;
-        cin>>input;
-        while(input!= "yes" && input != "no"){
-            cout<<"please type yes or no only"<<endl;
-            cin>>input;
+    if (in_jail == true) {
+        cout << "you are in jail, either pay a 400 dollar bail or roll a two of the same numbers" << endl;
+        cout << "would you like to pay the bail? yes/no" << endl;
+        cin >> input;
+        while (input != "yes" && input != "no") {
+            cout << "please type yes or no only" << endl;
+            cin >> input;
         }
-        if(input == "yes"){
-            if(get_balance()>=400){
+        if (input == "yes") {
+            if (get_balance() >= 400) {
                 change_balance(-400);
-                cout<<"congratulations you are out of jail via the bail"<<endl;
-                cout<<"your account now has "<<get_balance()<<" dollars"<<endl;
+                cout << "congratulations you are out of jail via the bail" << endl;
+                cout << "your account now has " << get_balance() << " dollars" << endl;
                 in_jail = false;
                 return;
             }
-            else{
-                cout<<"unfortunately you can't afford the bail"<<endl;
+            else {
+                cout << "unfortunately you can't afford the bail" << endl;
             }
 
         }
-        
+
         int roll_1 = rand() % 6 + 1;
         int roll_2 = rand() % 6 + 1;
-        cout<<"you rolled a "<<roll_1<<" and a "<<roll_2<<endl;
-        if(roll_1 == roll_2){
-            cout<<"congratulations you are out of jail and will be free from your next turn!" << endl;
+        cout << "you rolled a " << roll_1 << " and a " << roll_2 << endl;
+        if (roll_1 == roll_2) {
+            cout << "congratulations you are out of jail and will be free from your next turn!" << endl;
             in_jail = false;
             return;
         }
         else
         {
-            cout<<"Unlucky, you aren't free yet!"<<endl;
+            cout << "Unlucky, you aren't free yet!" << endl;
         }
     }
 
@@ -90,12 +90,12 @@ void Player::set_position()
 {
     previous_position = position;
     //checks if player is in jail and skips the opportunity to make a move and be a free bird!
-    if(in_jail == true){
-        cout<< "Tough luck buddy, you are in jail! Either pay the 400 dollar bail or take a 1/6 chance to escape via a dice roll"<<endl;
+    if (in_jail == true) {
+        cout << "Tough luck buddy, you are in jail! Either pay the 400 dollar bail or take a 1/6 chance to escape via a dice roll" << endl;
         return;
     }
     //has dice roll built into this functoin so that we don't have to constantly call other classes.
-    int roll = rand() % 7 + 1; 
+    int roll = rand() % 7 + 1;
     //gets a number between 1 to 8. I have shortened the dice as our game board is shortened. 12 is too powerful for collecting money at go
     cout << "you rolled a " << roll << endl;
     position += roll;
@@ -104,8 +104,8 @@ void Player::set_position()
     {
         //if the player has passed board, we reset the position.
         position -= 19;
-        cout << "congratualtions for passing Go " << playerName << "Centerlink awards you 200 AUD! "<<endl;
-        change_balance(200,'+');
+        cout << "congratualtions for passing Go " << playerName << "Centerlink awards you 200 AUD! " << endl;
+        change_balance(200);
     }
 }
 
@@ -121,13 +121,13 @@ string Player::get_name()
 }
 
 // function to change balance
-void Player::change_balance(int balance);
+void Player::change_balance(int balance)
 //, char calculation)
-{   
-    //if(calculation=='+') {
+{
     //no need to add symbol as parameter can take either positive or negative balance e.g: change_balance(int -100) would withdraw 100 from user balance
     playerBalance += balance;
-    
+
+
 }
 
 // function to return balance
