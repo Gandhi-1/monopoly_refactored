@@ -55,7 +55,7 @@ void Card::changeBalance(Player * players, int num){
 }
 
 Card::~Card(){
-    cout<<"you card was placed back in the deck!"<<endl;
+    cout<<"your card was placed back in the deck!"<<endl;
 }
     //we want to delete other objects used in this class if they are copied over;
     //deleting card object once used;   

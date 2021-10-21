@@ -17,12 +17,13 @@ class Card
 {
 
     private:
-        string header;
         int action_type;
         int change_balance;
         int change_position;
 
     public:
+        //header is made public so that the card's effects can easily be displayed
+        string header;
         Card();
         Card(string header, int action_type, int change_balance, int change_position);
         void activate_card(Player *players, Board board, int num);

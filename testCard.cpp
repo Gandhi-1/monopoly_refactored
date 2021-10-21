@@ -21,9 +21,19 @@ int main(void){
     cards.push_back(new Card("Great state vouchers award you 100 dollars for SA tourism, go have some fun!",2,100,0));
     cards.push_back(new Card("You fell asleep on an O-barn bus, whoops your final bus stop is START!",1,0,0));
 
-    //test1:
+    //initialising lucky player who gets 6 chance cards in a row
+    Player *p1 = new Player("p1",1);
+
+    //initialising board for testing
+    Board* adelaide_monopoly = new Board();
 
 
+    //testing each card's effects on the user:
+    for(int i = 0; i<6;i++){
+        cards[i]->activate_card(p1,(*adelaide_monopoly),0);
+        cout << "Card " << i << "\n Description: " << cards[i]->header << "\n Player properties: " << endl;
+        cout << "previous position: " << p1->get_previous_position() << ", current position: " << p1->get_position() << ", Balance: " << p1->get_balance() << ", inJail: " << p1->in_jail;
+    }
 
 
     //end program
