@@ -36,7 +36,7 @@ Card::Card(){
 //the reason I choose to access the array of all the players instead of simply one player is that we want to access other players in order to give them benifits
 //cards can have positive or negative implications
 //action_type = 1
- void Card::changePosition(Player * players, Game_Board board, int num){
+ void Card::changePosition(Player * players, Board board, int num){
      cout<<header<<endl;
 
      //changing user position on board class;
@@ -51,7 +51,7 @@ Card::Card(){
 //action_type = 2;
 void Card::changeBalance(Player * players, int num){
     cout<<header<<endl;
-    players[num].change_balance(change_balance,'+');
+    players[num].change_balance(change_balance);
 }
 
 Card::~Card(){
