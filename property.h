@@ -26,6 +26,10 @@ public:
     int price;
     //string *properties;
     int rent;
+    int houseCount;
+    int hotelCount;
+    int housePrice;
+    int hotelPrice;
     int ownerNumber;
     string property_owner;
     Property();
@@ -38,6 +42,10 @@ public:
     void getRent(Player player);
     void ontile(Player* player, int i, int playercount);
     void sellProperty(Player* players, int i, int playercount);
+    void buyHouse(Player* p);
+    void sellHouse(Player *p);
+    void buyHotel(Player *p);
+    void sellHotel(Player *p);
     string get_name();
 };
 

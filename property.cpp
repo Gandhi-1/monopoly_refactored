@@ -15,6 +15,10 @@ Property::Property() :Tile()
     price = 0;
     rent = 0;
     board_position = 0;
+    houseCount = 0;
+    hotelCount = 0;
+    housePrice = 0;
+    hotelPrice = 0;
 }
 
 
@@ -32,6 +36,12 @@ Property::Property(string name, float price, float rent, int board_position) :Ti
     original_name = name;
     property_owner = "none";
     this->board_position = board_position;
+    houseCount = 0;
+    hotelCount = 0;
+    housePrice = 50;
+    hotelPrice = 100;
+}
+
 }
 
 //we want to change the value of the property as more houses are added. This is because houses pertain value. 
@@ -167,13 +177,118 @@ void Property::ontile(Player* players, int i, int playercount) {
         //displaying owner
         //calling house class here and creating a house object which increases rent;
         cout << "you already own this property!" << endl;
-        cout << "type 'SELL' to sell property otherwise press enter to continue" << endl;
+        cout << "type 'BUY' to buy a house/hotel or type 'SELL' to sell property/house/hotel otherwise press enter to continue" << endl;
         string sell;
-        cin >> sell;
+        
+        cin.clear(); //clears input
+        
+        cin.ignore(256, '\n');
+        
+        getline(cin,sell);
         if (sell == "SELL") {
-            sellProperty(players, i, playercount);
+            
+            cout<<"Do you want to sell your property, house or hotel?"<<endl;
+            cout<<"type 'PROPERTY' to sell property, 'HOUSE' to sell house and 'HOTEL' to sell hotel"<<endl;
+            cout<<"Hit enter to exit"<<endl;
+
+            string check;
+
+            cin.clear();
+
+            cin.ignore(256, '\n');
+
+            getline(cin, check);
+
+            while(check!= "PROPERTY" || check != "HOUSE" || check!= "HOTEL" ||check!='\n' ) {
+                
+                cin.clear();
+
+                cin.ignore(256, '\n');
+
+                cout<<"Invalid entry, try again!"<<endl;
+
+                cout<<"type 'PROPERTY' to sell property, 'HOUSE' to sell house and 'HOTEL' to sell hotel"<<endl;
+                
+                cout<<"Hit enter to exit"<<endl;
+
+                getline(cin, check);        
+
+            }
+
+            if(check=="PROPERTY") {
+                sellProperty(players, i, playercount);
+            }
+
+            if(check=="HOUSE") {
+                if(houseCount==0) {
+                    cout<<"You can't sell a house you don't own!"<<endl;
+                    cout<<"You will be returned"<<endl;
+
+                }
+                else {
+                    sellHouse(players[i]);
+                }
+            }
+
+            if(check=="HOTEL") {
+                if(hotelCount==0) {
+                    cout<<"You can't sell a hotel you don't own!"<<endl;
+                    cout<<"You will be returned"<<endl;
+                }
+                else {
+                    sellHotel(players[i]);
+                }
+            }
+
+
+
         }
+        
+        if(sell == "BUY") {
+
+            string buy;
+            cout<<"Type 'HOUSE' to buy a house, 'HOTEL' to buy a hotel or enter to exit"<<endl;
+
+            cin.clear(); //clears input
+        
+            cin.ignore(256, '\n');
+        
+            getline(cin,buy)
+
+              while(buy != "HOUSE" || buy != "HOTEL" || buy != '\n') {
+                
+                cin.clear(); //clears input
+
+                cin.ignore(256, '\n');
+                
+                getline(cin,buy)
+
+                }
+
+            if(buy=="HOUSE") {
+
+                buyHouse(*players[i]);
+
+            }
+
+            if(buy=="HOTEL") {
+                buyHotel(*players[i]);
+            }
+
+        }
+
+        while(sell != "SELL" || sell != "BUY" || sell != '\n') {
+        
+        cin.clear(); //clears input
+
+        cin.ignore(256, '\n');
+        
+        getline(cin,sell);
+
+        }
+
         return;
+        
     }
 
 
@@ -299,5 +414,97 @@ void Property::sellProperty(Player* players, int i, int playercount)
 }
 
 
+void Property::buyHouse(Player *p){
+
+    if(p->get_balance()<housePrice) {
+        cout<<"You don't have enough money for a house, you need 50!"<<endl;
+        return;
+    }
+    else if(houseCount==4){
+        cout<<"You cannot build anymore houses, maximum number of houses is 4!"<<endl;
+        return;
+    }
+    else {
+        houseCount++;
+        p->change_balance(-housePrice);
+        rent = rent*1.1;
+        cout<<"Congrats "<<p->get_name()<<"("<<p->get_number()<<")  you now have a house!"<<endl;
+        cout<<"Your rent has increased by 10%!"<<endl;
+        return;
+
+    }
+
+}
+
+void Property::sellHouse(Player *p){
+
+    houseCount--;
+    p->change_balance(housePrice*0.9);
+    cout<<"You have sold your house, you will get paid "<<0.9*housePrice<<endl;
+    cout<<p->get_name()<<"("<<p->get_number()<<") your balance is now $"<<p->get_balance()<<endl;
+
+    }
 
 
+void Property::buyHotel(Player *p){
+
+    if(p->get_balance()<hotelPrice) {
+        cout<<"You don't have enough money for a hotel, you need 100!"<<endl;
+        return;
+    }
+
+    if(houseCount!=4){
+        cout<<"You cannot buy a hotel if you do not have 4 houses!"<<endl;
+        cout<<"Do you wish to buy a house?"<<endl;
+        cout<<"'YES to buy a house, enter to return"<<endl;
+        string command;
+        
+        cin.clear(); //clears input
+
+        cin.ignore(256, '\n');
+
+        getline(cin, command);
+
+        while(command != "YES" || command != '\n') {
+
+        cin.clear(); //clears input
+
+        cin.ignore(256, '\n');
+
+        cout<<"Invalid entry"<<endl;
+
+        cout<<"Do you wish to buy a house?"<<endl;
+        cout<<"'YES to buy a house, enter to return"<<endl;
+
+        getline(cin, command);
+
+        }
+
+        if(command == "YES") {
+            buyHouse(p);
+        }
+        return;
+    }
+    else {
+        hotelPrice++;
+        p->change_balance(-hotelPrice);
+        rent = rent*1.2;
+        cout<<"Congrats "<<p->get_name()<<"("<<p->get_number()<<")  you now have a hotel!"<<endl;
+        cout<<"Your rent has increased by 20%!"<<endl;
+        cout<<p->get_name()<<"("<<p->get_number()<<") your balance is now $"<<p->get_balance()<<endl;
+
+        return;
+
+    }
+
+    }
+
+
+void Property::sellHotel(Player *p){
+
+    hotelCount--;
+    p->change_balance(hotelPrice*0.9);
+    cout<<"You have sold your house, you will get paid "<<0.9*housePrice<<endl;
+    cout<<p->get_name()<<"("<<p->get_number()<<") your balance is now $"<<p->get_balance()<<endl; 
+
+}
