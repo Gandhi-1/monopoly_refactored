@@ -4,12 +4,12 @@
 # 	clang++ test_main.cpp player.cpp gameboard.cpp property.cpp -o monopoly
 
 #unit testing
-monopoly: test_main.cpp gameboard.cpp gameboard.h player.cpp player.h property.cpp property.h 
-	clang++ test_main.cpp gameboard.cpp player.cpp property.cpp -std=c++11 -o monopoly
-	./monopoly
+test: test_main.cpp gameboard.cpp gameboard.h player.cpp player.h property.cpp property.h 
+	clang++ test_main.cpp gameboard.cpp player.cpp property.cpp -std=c++11 -o test
+	./test
 
 
 #actual game 
-refactored: main.cpp gameboard.cpp gameboard.h player.cpp player.h property.cpp property.h property.cpp property.h Tile.cpp Tile.h
-	clang++ main.cpp gameboard.cpp player.cpp  property.cpp Tile.cpp -std=c++11 -o refactored
-	./refactored
+monopoly: main.cpp gameboard.cpp gameboard.h player.cpp player.h property.cpp property.h property.cpp property.h Tile.cpp Tile.h
+	clang++ main.cpp gameboard.cpp player.cpp  property.cpp Tile.cpp -std=c++11 -o monopoly
+	./monopoly

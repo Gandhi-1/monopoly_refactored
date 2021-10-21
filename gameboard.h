@@ -21,6 +21,9 @@ public:
 	//this needs to be of type property * so we can properly use our virtual functions in the tile class
 	//virtual functions only work for pointers
 	Board();
+	//std::vector<Tile*> tiles;
+	//since properties inherets tiles it all should be accessible from
+	
 	std::vector<Property*> properties;
 	std::vector<string>* user_pos = new vector<string>(20);
 	int variable;

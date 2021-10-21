@@ -136,3 +136,25 @@ Player class
 -Added decontructor for classes that did not have them.
 -Added functionality for buying/selling houses/hotels
 -Minor bug fixing/logic errors
+
+(hugh signoriello)
+-fixed dice roll not returning valid inputs using a <random libray and some code I found online>
+
+tomorrows fixes: 
+array in gamebaord.cpp should be tile objects not property
+//std::vector<Tile*> tiles;
+
+jail inherets tiles same with chance class
+
+class jail: public Tile{
+
+}
+player class needs to have a seris of if statements to handle object calls
+
+-bug fixes: 
+-start needs to not be able to be bought (game registers start as a property which can therefore be bought)
+-when player 2 buys property it does not seem to want to show it on the board array
+-shows ownesrhip on board
+-various bug fixes but still more 
+-can't seem to unit test as I am struggling to access methods as they are interweaved between classes due to having many objects in the class heaers. (will figure out on friday)
+-added if statements to board.cpp make_move(); to stop player from being able to buy non-buyable properties like start

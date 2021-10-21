@@ -8,7 +8,7 @@ using namespace std;
 
 
 //the inheretance is done int he main header
-Property::Property() :Tile()
+Property::Property():Tile()
 {
     owned = false;
     num_house = 0;
@@ -88,7 +88,8 @@ void Property::buy_property(Player* buyer)
         owned = true;
         property_owner = buyer->get_name();
         //this line of code adds the buyers number next to the name on the board so that we can see owns the property
-        name += " " + buyer->get_number();
+       //this is where we access title
+        name += "  P" + to_string(buyer->get_number());
 
         return;
     }
@@ -159,7 +160,7 @@ void Property::get_owner()
 //this function could be useful to add later to get the name of the property instantiated.
 string Property::get_name()
 {
-    return tileName;
+    return name;
 }
 
 
@@ -167,7 +168,7 @@ string Property::get_name()
 //i refers to the the player num and is the index of the array
 //gets is a player is also on tile; 
 //player count gets the number of players
-void Property::ontile(Player* players, int i, int playercount) {
+void Property::onProperty(Player* players, int i, int playercount) {
     //the i = is just a test to see if the numbers are the same. Since they are, it is obselte to pass through in i in the function.
     //cout<<players[i].get_name()<<" who is "<<i+1<<" = " << players[i].get_number()<<" has landed on "<<property_name<<endl;
     cout << players[i].get_name() << " who is p" << players[i].get_number() << " has landed on " << tileName << endl;
@@ -408,8 +409,6 @@ void Property::sellProperty(Player* players, int i, int playercount)
         if (count == 3) {
             break;
         }
-
-
     }
 
     if (count == 3) {
@@ -424,7 +423,6 @@ void Property::sellProperty(Player* players, int i, int playercount)
     }
 
 }
-
 
 void Property::buyHouse(Player* p) {
 
@@ -456,7 +454,6 @@ void Property::sellHouse(Player* p) {
     cout << p->get_name() << "(" << p->get_number() << ") your balance is now $" << p->get_balance() << endl;
 
 }
-
 
 void Property::buyHotel(Player* p) {
 
@@ -511,7 +508,6 @@ void Property::buyHotel(Player* p) {
 
 }
 
-
 void Property::sellHotel(Player* p) {
 
     hotelCount--;
@@ -520,3 +516,4 @@ void Property::sellHotel(Player* p) {
     cout << p->get_name() << "(" << p->get_number() << ") your balance is now $" << p->get_balance() << endl;
 
 }
+

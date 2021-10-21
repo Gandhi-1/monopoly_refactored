@@ -41,7 +41,7 @@ public:
     void set_owner(Player* owner);//2
     void get_owner();
     void getRent(Player* player);//3
-    void ontile(Player* player, int i, int playercount);
+    void onProperty(Player* player, int i, int playercount);
     void sellProperty(Player* players, int i, int playercount);
     void buyHouse(Player* p);
     void sellHouse(Player* p);

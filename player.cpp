@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include "player.h"
+#include <random>
+//this is a cpp 11 feature
 using namespace std;
 
 Player::Player()
@@ -89,7 +91,7 @@ int Player::get_previous_position()
 {
     return previous_position;
 }
-
+//we should pass through the tiles array in this function to access other classes
 void Player::set_position()
 {
     previous_position = position;
@@ -99,7 +101,13 @@ void Player::set_position()
         return;
     }
     //has dice roll built into this functoin so that we don't have to constantly call other classes.
-    int roll = rand() % 7 + 1;
+    //original method for random number (had issues giving same numbers upon first roll)
+    //int roll = rand() % 7 + 1;
+    std::random_device dev;
+    std:: mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(1,8);
+    int roll = dist6(rng);
+
     //gets a number between 1 to 8. I have shortened the dice as our game board is shortened. 12 is too powerful for collecting money at go
     cout << "you rolled a " << roll << endl;
     position += roll;
@@ -109,8 +117,24 @@ void Player::set_position()
         //if the player has passed board, we reset the position.
         position -= 19;
         cout << "congratualtions for passing Go " << playerName << "Centerlink awards you 200 AUD! " << endl;
+        //we actually don't need a start class due to this feature.
+        //start literally does nothing so it's find to just use this if statment here to simulate the start
         change_balance(200);
     }
+
+    //we also want to call the relevant objects to ther classes 
+    // if(position == 5){
+    //     tiles[5]->in_jail();
+    // }
+
+      // if(position == 10){
+    //     chance[10]->active_card();
+    // }
+    
+      // if(position == 15){
+    //     tiles[15]->go_to_jail();
+    // }
+    
 }
 
 //this line of code is redundant because we can access variables like such: player_object.position = position variable for that object

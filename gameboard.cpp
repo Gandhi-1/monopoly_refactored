@@ -20,11 +20,16 @@ Board::Board()
     //Property AdelaideUni(rent,owner,number) = &adelaideUni_tile_object
     //AdelaideUni-> do_something
 
+    //this needs to be tile now
+   // Tile* p1 = new Tile("Start", 0, 0, 0);
     Property* p1 = new Property("Start", 0, 0, 0);
+
+    //these remain properties because they are properties
     Property* p2 = new Property("Adelaide Uni", 200, 40, 1);
     Property* p3 = new Property("Flinders Uni", 150, 20, 2);
     Property* p4 = new Property("UNISA", 155, 22.5, 3);
     Property* p5 = new Property("TAFE", 160, 25, 4);
+    //Jail* p16 = new Jail("jail", 0, 0, 165);
     Property* p6 = new Property("Jail", 0, 200, 5);
     Property* p7 = new Property("Mount Lofty", 250, 50, 6);
     Property* p8 = new Property("Mount Osmond", 225, 45, 7);
@@ -35,6 +40,8 @@ Board::Board()
     Property* p13 = new Property("Norwood Parade", 185, 30, 12);
     Property* p14 = new Property("Rundel Mall", 300, 70, 13);
     Property* p15 = new Property("Tea Tree Plaza", 280, 60, 14);
+    //this should be part of the jail class
+    //Jail* p16 = new Jail("go to jail", 0, 0, 165);
     Property* p16 = new Property("go to jail", 0, 0, 165);
     Property* p17 = new Property("RAH Hospital", 380, 80, 16);
     Property* p18 = new Property("Adelaide Oval", 400, 70, 17);
@@ -104,14 +111,14 @@ void Board::make_move(Player* players) {
         for (int i = 0; i < player_count; i++)
         {
             cout << "Its " << players[i].get_name() << "'s turn!" << endl;
-            cout << "Press 1 to roll the dice " << endl;
-            cout << "2 - End Game " << endl;
+            cout << "1: Roll Dice " << endl;
+            cout << "2: End Game " << endl;
 
 
             while (!(cin >> control)) {
 
                 cin.clear(); //clears input
-
+                //ignoires everything up to a \n until we reach a new l ine
                 cin.ignore(256, '\n');
 
                 cout << "Invalid Entry! Try again" << endl;
@@ -125,18 +132,19 @@ void Board::make_move(Player* players) {
             }
 
             //rolls the dice;
-
-
-
+            //dice integrated into set position
             players[i].set_position();
 
             set_user_pos(players[i]);
 
 
             Display_Board();
-
-
-            properties[players[i].position]->ontile(players, i, player_count);
+            //temporary fix to stop user from buying jail or start
+            
+            //we need to have an if statement to account for the other classes
+            if(players[i].get_position()!=0 && players[i].get_position()!=5 && players[i].get_position()!=10 && players[i].get_position()!=15){
+            properties[players[i].get_position()]->onProperty(players, i, player_count);
+            }
 
 
 
@@ -180,15 +188,8 @@ void Board::set_user_pos(Player player) {
 };
 
 void Board::Display_Board() {
-    // holds our properties.
 
-    // cout << "player p2's move" << endl;
-     // the game board should access the values declared in the constructor
-        // pull name from property instead;
-        //string array[20] = {"START", "Adelaide Uni", "Flinders Uni", "Uni SA", "Tafe", "Jail", "Mount lofty", "Mount osmond", "Morialta falls", "Linear park trail", "Chance", "Burnside Village", "Norwood Parade", "Rundel Mall", "Tea Tree Plaza", "Go to Jail", "RAH hospital", "Adelaide Oval", "St Bernards F&V", "Hindley club"};
-
-
-
+    cout << " ===========================================================================================================================================" << endl;
     cout << " |  ";
     for (int i = 0; i <= 5; i++)
     {
@@ -235,12 +236,6 @@ void Board::Display_Board() {
     }
     cout << endl;
     cout << " ===========================================================================================================================================" << endl;
-    // string p1_properties[4] = {"Rundle Mall", "Hindley st strip club", "Preist P. Benidict's child care", "modbury centerlink"};
-    // cout << "Properties owned by player 1: ";
-    // for (int i = 0; i < 4; i++)
-    // {
-    //     cout << setw(20) << p1_properties[i];
-    // }
 };
 // roll dice should be a function in the main. Perhaps it could be in the gameboard class
 // int Board::rollDice()

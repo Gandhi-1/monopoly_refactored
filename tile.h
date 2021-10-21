@@ -11,7 +11,7 @@ public:
     Tile(string name);
     ~Tile();
     string tileName;
-    virtual void ontile(Player* player, int i, int playercount) = 0;
+    virtual void onProperty(Player* player, int i, int playercount) = 0;
 };
 
 
