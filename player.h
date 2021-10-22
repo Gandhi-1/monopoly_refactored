@@ -36,7 +36,7 @@ public:
     void InJail();
     int get_number();
     //this is a very important function that needs to be called when a player lands on the property
-    void get_properties(vector<Tile*>& properties) {
+    void get_properties(vector<Tile*>& tiles) {
         //we want to pass through Tile objects (or property objedcts and access them)
 
     };
@@ -44,7 +44,7 @@ public:
     void show_properties();
     int get_previous_position();
     //makes a move for the player
-    void set_position();
+    void set_position(vector<Tile*>& tiles);
     int get_position();
     string get_name();
     int get_balance();

@@ -2,6 +2,9 @@
 #include "gameboard.h"
 #include <vector>
 #include "property.h"
+#include "jail.h"
+#include "start.h"
+#include "tile.h"
 #include <iostream>
 
 
@@ -22,52 +25,52 @@ Board::Board()
 
     //this needs to be tile now
    // Tile* p1 = new Tile("Start", 0, 0, 0);
-    Property* p1 = new Property("Start", 0, 0, 0);
 
+    Tile* p1 = new Start("Start");
     //these remain properties because they are properties
-    Property* p2 = new Property("Adelaide Uni", 200, 40, 1);
-    Property* p3 = new Property("Flinders Uni", 150, 20, 2);
-    Property* p4 = new Property("UNISA", 155, 22.5, 3);
-    Property* p5 = new Property("TAFE", 160, 25, 4);
+    Tile* p2 = new Property("Adelaide Uni", 200, 40, 1);
+    Tile* p3 = new Property("Flinders Uni", 150, 20, 2);
+    Tile* p4 = new Property("UNISA", 155, 22.5, 3);
+    Tile* p5 = new Property("TAFE", 160, 25, 4);
     //Jail* p16 = new Jail("jail", 0, 0, 165);
-    Property* p6 = new Property("Jail", 0, 200, 5);
-    Property* p7 = new Property("Mount Lofty", 250, 50, 6);
-    Property* p8 = new Property("Mount Osmond", 225, 45, 7);
-    Property* p9 = new Property("Morialta Falls", 230, 46.5, 8);
-    Property* p10 = new Property("Linear Park Trail", 245, 47, 9);
-    Property* p11 = new Property("Chance", 0, 0, 10);
-    Property* p12 = new Property("Burnside Village", 225, 45, 11);
-    Property* p13 = new Property("Norwood Parade", 185, 30, 12);
-    Property* p14 = new Property("Rundel Mall", 300, 70, 13);
-    Property* p15 = new Property("Tea Tree Plaza", 280, 60, 14);
+    Tile* p6 = new Jail("Jail");
+    Tile* p7 = new Property("Mount Lofty", 250, 50, 6);
+    Tile* p8 = new Property("Mount Osmond", 225, 45, 7);
+    Tile* p9 = new Property("Morialta Falls", 230, 46.5, 8);
+    Tile* p10 = new Property("Linear Park Trail", 245, 47, 9);
+    Tile* p11 = new Property("Chance", 0, 0, 10);
+    Tile* p12 = new Property("Burnside Village", 225, 45, 11);
+    Tile* p13 = new Property("Norwood Parade", 185, 30, 12);
+    Tile* p14 = new Property("Rundel Mall", 300, 70, 13);
+    Tile* p15 = new Property("Tea Tree Plaza", 280, 60, 14);
     //this should be part of the jail class
     //Jail* p16 = new Jail("go to jail", 0, 0, 165);
-    Property* p16 = new Property("go to jail", 0, 0, 165);
-    Property* p17 = new Property("RAH Hospital", 380, 80, 16);
-    Property* p18 = new Property("Adelaide Oval", 400, 70, 17);
-    Property* p19 = new Property("St Bernards", 420, 50, 18);
-    Property* p20 = new Property("Hindley club", 420, 50, 18);
+    Tile* p16 = new Jail("Go to jail");
+    Tile* p17 = new Property("RAH Hospital", 380, 80, 16);
+    Tile* p18 = new Property("Adelaide Oval", 400, 70, 17);
+    Tile* p19 = new Property("St Bernards", 420, 50, 18);
+    Tile* p20 = new Property("Hindley club", 420, 50, 18);
 
-    properties.push_back(p1);
-    properties.push_back(p2);
-    properties.push_back(p3);
-    properties.push_back(p4);
-    properties.push_back(p5);
-    properties.push_back(p6);
-    properties.push_back(p7);
-    properties.push_back(p8);
-    properties.push_back(p9);
-    properties.push_back(p10);
-    properties.push_back(p11);
-    properties.push_back(p12);
-    properties.push_back(p13);
-    properties.push_back(p14);
-    properties.push_back(p15);
-    properties.push_back(p16);
-    properties.push_back(p17);
-    properties.push_back(p18);
-    properties.push_back(p19);
-    properties.push_back(p20);
+    tiles.push_back(p1);
+    tiles.push_back(p2);
+    tiles.push_back(p3);
+    tiles.push_back(p4);
+    tiles.push_back(p5);
+    tiles.push_back(p6);
+    tiles.push_back(p7);
+    tiles.push_back(p8);
+    tiles.push_back(p9);
+    tiles.push_back(p10);
+    tiles.push_back(p11);
+    tiles.push_back(p12);
+    tiles.push_back(p13);
+    tiles.push_back(p14);
+    tiles.push_back(p15);
+    tiles.push_back(p16);
+    tiles.push_back(p17);
+    tiles.push_back(p18);
+    tiles.push_back(p19);
+    tiles.push_back(p20);
     //adding properties to a property array
     // properties.push_back(AdelaideUni);
     // properties.push_back(FlindersUni);
@@ -133,17 +136,22 @@ void Board::make_move(Player* players) {
 
             //rolls the dice;
             //dice integrated into set position
-            players[i].set_position();
+            players[i].set_position(tiles);
 
             set_user_pos(players[i]);
 
 
             Display_Board();
             //temporary fix to stop user from buying jail or start
-            
+
             //we need to have an if statement to account for the other classes
-            if(players[i].get_position()!=0 && players[i].get_position()!=5 && players[i].get_position()!=10 && players[i].get_position()!=15){
-            properties[players[i].get_position()]->onProperty(players, i, player_count);
+            if (players[i].get_position() == 15) {
+                tiles[15]->goToJail(&players[i]);
+                tiles[players[i].get_position()]->onTile(players, i, player_count);
+            }
+            else {
+                tiles[players[i].get_position()]->onTile(players, i, player_count);
+
             }
 
 
@@ -195,7 +203,7 @@ void Board::Display_Board() {
     {
         //we want to format the name of the property/tile and get_the name from the object
 
-        cout << left << setw(20) << properties[i]->get_name() << "|  "; //CHECK HERE!!
+        cout << left << setw(20) << tiles[i]->get_name() << "|  "; //CHECK HERE!!
     }
     cout << endl;
     cout << " |  ";
@@ -210,9 +218,9 @@ void Board::Display_Board() {
     {
         // we add numbers for formatting. They seem random but they actually correspond to the amount of spaces needed for the properties to line up.
 
-        cout << " |  " << setw(20) << properties[19 - i]->get_name() << "|"
+        cout << " |  " << setw(20) << tiles[19 - i]->get_name() << "|"
             << setw(92) << ""
-            << "| " << setw(20) << properties[i + 6]->get_name() << "|" << endl;
+            << "| " << setw(20) << tiles[i + 6]->get_name() << "|" << endl;
         cout << " |  " << setw(20) << (*user_pos)[19 - i] << "|"
             << setw(92) << ""
             << "| " << setw(20) << (*user_pos)[i + 6] << "|  " << endl;
@@ -226,7 +234,7 @@ void Board::Display_Board() {
     cout << " |  ";
     for (int i = 0; i <= 5; i++)
     {
-        cout << setw(20) << properties[15 - i]->get_name() << "|  ";
+        cout << setw(20) << tiles[15 - i]->get_name() << "|  ";
     }
     cout << endl;
     cout << " |  ";
