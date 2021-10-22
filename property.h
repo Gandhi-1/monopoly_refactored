@@ -1,12 +1,17 @@
 #ifndef PROPERTY_H
 #define PROPERTY_H
-#include "player.h"
-#include "gameboard.h"
+
 #include "tile.h"
+#include "gameboard.h"
+#include "player.h"
+
+
 #include <iostream>
 #include <string>
 using namespace std;
+
 class Player;
+
 //class Game_Board;
 //string *properties;
 
@@ -41,13 +46,13 @@ public:
     void set_owner(Player* owner);//2
     void get_owner();
     void getRent(Player* player);//3
-    void onProperty(Player* player, int i, int playercount);
+    void onTile(Player* player, int i, int playercount);
     void sellProperty(Player* players, int i, int playercount);
     void buyHouse(Player* p);
     void sellHouse(Player* p);
     void buyHotel(Player* p);
     void sellHotel(Player* p);
-    string get_name();
+
 };
 
 

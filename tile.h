@@ -10,8 +10,11 @@ public:
     Tile();
     Tile(string name);
     ~Tile();
+    string get_name();
     string tileName;
-    virtual void onProperty(Player* player, int i, int playercount) = 0;
+    virtual void onTile(Player* player, int i, int playercount) = 0;
+    virtual void goToJail(Player* player);
+    virtual void passStart(Player* player);
 };
 
 
